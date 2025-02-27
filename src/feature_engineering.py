@@ -6,7 +6,7 @@ import geopandas as gpd
 def get_avg_temp_for_year():
     # Path to the monthly weather CSV for 2021 (already averaged per month)
     weather_path = os.path.join(os.path.dirname(__file__), '..', 'data', 'raw', 'NYC_Weather_2021_Monthly.csv')
-    # Read the monthly weather data; assume it has columns "month" and "avg_temp"
+    # Read the monthly weather data
     df_weather = pd.read_csv(weather_path)
     # Compute the overall average temperature for 2021 by averaging the monthly averages
     overall_avg = df_weather['avg_temp'].mean()
@@ -18,9 +18,8 @@ def create_features():
     data_path = os.path.join(os.path.dirname(__file__), '..', 'data', 'processed', 'merged_2021.geojson')
     # Read the geojson file using GeoPandas
     gdf = gpd.read_file(data_path)
-    # (Optional) If you don't need the geometry for feature engineering, drop it:
+    # (Optional) If we don't need the geometry for feature engineering, drop it:
     df = pd.DataFrame(gdf.drop(columns='geometry'))
-    # Alternatively, if you want to compute spatial features (like area), you can do that here.
 
     # Calculate building age
     df['building_age'] = 2021 - df['CNSTRCT_YR']
