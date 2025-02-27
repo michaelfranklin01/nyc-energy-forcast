@@ -24,7 +24,7 @@ def load_and_clean_data():
     gdf_buildings = gpd.GeoDataFrame(
         df_buildings,
         geometry="geometry",
-        crs="EPSG:2263"  # Use the correct CRS for your data
+        crs="EPSG:2263"  # NY long island area
     )
 
     # Rename columns for consistent merging
@@ -37,12 +37,12 @@ def load_and_clean_data():
     # Merge on 'bin'; now there will be no conflicting geometry columns from the energy CSV
     gdf_merged_2021 = gdf_buildings.merge(df_energy_2021, on='bin', how='left')
 
-    # Optionally drop duplicates and rows missing critical values
+    # Drop duplicates and rows missing critical values
     gdf_merged_2021.drop_duplicates(subset=['bin'], inplace=True)
     gdf_merged_2021.dropna(subset=['energy'], inplace=True)
 
     # The resulting GeoDataFrame should already have a valid "geometry" field from the building footprints.
-    # If any redundant geometry columns exist (e.g., leftover from the merge), you can drop them:
+    # If any redundant geometry columns exist (e.g., leftover from the merge) drop them:
     for col in ['the_geom', 'the_geom_x', 'the_geom_y']:
         if col in gdf_merged_2021.columns:
             gdf_merged_2021.drop(columns=[col], inplace=True)
