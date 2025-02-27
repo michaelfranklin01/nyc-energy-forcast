@@ -4,8 +4,8 @@ import pandas as pd
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_squared_error
 from sklearn.model_selection import train_test_split
+import numpy as np
 
-# Import feature engineering function
 from feature_engineering import create_features
 
 
@@ -13,20 +13,21 @@ def train_model():
     # Load training features and target (2021 data)
     X, y = create_features()
 
-    # Split into training and validation sets (e.g., 80/20 split)
-    # TODO: analyze the model output to find which factors most strongly predict energy consumption
+    # Optionally, split into training and validation sets (e.g., 80/20 split)
     X_train, X_val, y_train, y_val = train_test_split(X, y, test_size=0.2, random_state=42)
 
-    # Initialize the Random Forest model with basic parameters
-    # (need to improve this over time and analyze our data more)
+    # Initialize the Random Forest model
     rf_model = RandomForestRegressor(n_estimators=100, random_state=42)
 
     # Train the model
     rf_model.fit(X_train, y_train)
 
-    # Evaluate on the validation set
+    # Predict on the validation set
     y_val_pred = rf_model.predict(X_val)
-    rmse_val = mean_squared_error(y_val, y_val_pred, squared=False)
+
+    # Compute Mean Squared Error, then take the square root for RMSE
+    mse_val = mean_squared_error(y_val, y_val_pred)
+    rmse_val = np.sqrt(mse_val)
     print("Validation RMSE:", rmse_val)
 
     # Save the trained model for later use on testing data (2022)
