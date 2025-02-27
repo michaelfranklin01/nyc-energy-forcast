@@ -40,9 +40,9 @@ The project performs the following key steps:
 4. Activate the Environment:
     ```
    conda activate nyc_energy
-## Usage
+# Usage
 
-# Data Preprocessing
+## Data Preprocessing
 
 Run the preprocessing script to merge and clean the raw data:
 
@@ -50,15 +50,15 @@ Run the preprocessing script to merge and clean the raw data:
 
 This will create a processed file at data/processed/merged_2021.geojson.
 
-# Feature Engineering
+## Feature Engineering
 
 Process the training data (2021) to generate features:
 
-python src/feature_engineering.py
+    python src/feature_engineering.py
 
 This script reads the processed data, computes derived features (building age, energy intensity, etc.), and integrates weather data.
 
-# Model Training
+## Model Training
 
 Train the model using the processed training data:
 
@@ -66,7 +66,7 @@ Train the model using the processed training data:
 
 This script trains a Random Forest regressor, evaluates performance on a validation set, and saves the model to models/energy_model_rf.pkl.
 
-# Model Evaluation
+## Model Evaluation
 
 After processing your testing data (e.g., for 2022) using a similar feature engineering pipeline, run your evaluation script to generate predictions and evaluate model performance.
 Data Sources
@@ -76,10 +76,10 @@ Data Sources
     Energy Usage Testing: Filtered Energy Usage CSV for 2022 (filtered_evt_EUI-2022.csv).
     Weather Data: Hourly and monthly weather data for NYC (e.g., NYC_Weather_2021.csv and NYC_Weather_2021_Monthly.csv).
 
-## Contributing
+# Contributing
 
 Contributions are welcome! Please open issues or submit pull requests for improvements or bug fixes.
 
-## License
+# License
 
 This project is licensed under the MIT License.
