@@ -1,11 +1,13 @@
 import os
 import pandas as pd
 import geopandas as gpd
+import datetime
 
 
-def get_avg_temp_for_year():
+def get_avg_temp_for_year(weather_data_monthly):
+    monthly_weather_data_filename = f"{weather_data_monthly}"
     # Path to the monthly weather CSV for 2021 (already averaged per month)
-    weather_path = os.path.join(os.path.dirname(__file__), '..', 'data', 'raw', 'NYC_Weather_2021_Monthly.csv')
+    weather_path = os.path.join(os.path.dirname(__file__), '..', 'data', 'raw', monthly_weather_data_filename)
     # Read the monthly weather data
     df_weather = pd.read_csv(weather_path)
     # Compute the overall average temperature for 2021 by averaging the monthly averages
@@ -13,16 +15,18 @@ def get_avg_temp_for_year():
     return overall_avg
 
 
-def create_features():
-    # Construct path to processed energy data (merged_2021.geojson)
-    data_path = os.path.join(os.path.dirname(__file__), '..', 'data', 'processed', 'merged_2021.geojson')
+def create_features(training_merged_data, testing_merged_data, weather_data_monthly):
+    data_filename = f"{merged_data}"
+    # Construct path to processed energy data
+    data_path = os.path.join(os.path.dirname(__file__), '..', 'data', 'processed', data_filename)
     # Read the geojson file using GeoPandas
     gdf = gpd.read_file(data_path)
     # (Optional) If we don't need the geometry for feature engineering, drop it:
     df = pd.DataFrame(gdf.drop(columns='geometry'))
 
     # Calculate building age
-    df['building_age'] = 2021 - df['CNSTRCT_YR']
+    current_year = datetime.datetime.now().year
+    df['building_age'] = current_year - df['CNSTRCT_YR']
 
     # Calculate energy intensity (energy per gross floor area)
     df['energy_intensity'] = df.apply(lambda row: row['energy'] / row['gfa'] if row['gfa'] > 0 else None, axis=1)
@@ -36,7 +40,7 @@ def create_features():
     df = pd.get_dummies(df, columns=['age_bucket'], prefix='age')
 
     # Incorporate weather data: use the monthly CSV to get the overall average temperature for 2021
-    avg_temp = get_avg_temp_for_year()
+    avg_temp = get_avg_temp_for_year(weather_data_monthly)
     df['avg_temp'] = avg_temp
 
     # Define feature columns and target
