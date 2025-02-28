@@ -11,7 +11,7 @@ from feature_engineering import create_features
 
 def train_model():
     # Load training features and target (2021 data)
-    X, y = create_features()
+    X, y = create_features("merged_2021.geojson", "NYC_weather_2021_monthly.csv")
 
     # Optionally, split into training and validation sets (e.g., 80/20 split)
     X_train, X_val, y_train, y_val = train_test_split(X, y, test_size=0.2, random_state=42)
