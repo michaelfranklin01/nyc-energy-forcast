@@ -9,7 +9,7 @@ from feature_engineering import create_features
 
 def evaluate_model():
     # 1. Path to the trained model
-    model_path = os.path.join(os.path.dirname(__file__), '..', 'models', 'energy_model_rf.pkl')
+    model_path = os.path.join(os.path.dirname(__file__), '..', 'models', 'energy_rf.pkl')
 
     # Load the previously trained RandomForestRegressor
     rf_model = joblib.load(model_path)
@@ -17,9 +17,9 @@ def evaluate_model():
 
     # 2. Process test data (2022) to get features (X_test) and target (y_test)
     print("Processing test data...")
-    load_and_clean_data("merged_2022", "filtered_evt_EUI-2022.csv")
+    load_and_clean_data("merged_2021", "filtered_evt_EUI-2021.csv")
     print("Data Processed. \nGetting features...")
-    X_test, y_test = create_features("merged_2022.geojson", "NYC_Weather_2022_monthly.csv")
+    X_test, y_test = create_features("merged_2021.geojson", "NYC_Weather_2021_monthly.csv")
 
     # 3. Generate predictions
     print("Features Generated. \nGenerating predictions...")
