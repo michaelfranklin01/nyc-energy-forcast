@@ -6,5 +6,6 @@
 # Datasource local storage ignored files
 /dataSources/
 /dataSources.local.xml
-
+/data/processed/test_predictions.csv
+/src/__pycache__/
 models/
