@@ -1,0 +1,25 @@
+name: nyc_energy_forcaster
+channels:
+  - defaults
+  - conda-forge
+dependencies:
+  - python=3.12
+  - numpy
+  - pandas
+  - scikit-learn
+  - scipy
+  - matplotlib
+  - seaborn
+  - geopandas
+  - shapely
+  - folium
+  - pyproj
+  - fiona
+  - rtree
+  - requests
+  - jinja2
+  - pip
+  - pip:
+      - pyogrio
+
+prefix: /Users/sap/miniconda3/envs/nyc_energy_forcaster
